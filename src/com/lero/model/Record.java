@@ -1,6 +1,10 @@
 package com.lero.model;
 
-
+/**
+ * @Description : 记录信息实体
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class Record {
 	
 	private int recordId;
@@ -15,33 +19,35 @@ public class Record {
 	private String endDate;
 	private int developerId;
 
-	private ItemType itemType;
-	private Developer developer;
-	
 	public Record() {
 	}
-	
+
 	public Record(String subprojectNumber, String date, String detail) {
 		this.subprojectNumber = subprojectNumber;
 		this.date = date;
 		this.detail = detail;
 	}
-	
+
 	public int getRecordId() {
 		return recordId;
 	}
+
 	public void setRecordId(int recordId) {
 		this.recordId = recordId;
 	}
+
 	public String getSubprojectNumber() {
 		return subprojectNumber;
 	}
+
 	public void setSubprojectNumber(String subprojectNumber) {
 		this.subprojectNumber = subprojectNumber;
 	}
+
 	public String getSubprojectName() {
 		return subprojectName;
 	}
+
 	public void setSubprojectName(String subprojectName) {
 		this.subprojectName = subprojectName;
 	}
@@ -49,26 +55,17 @@ public class Record {
 	public String getDate() {
 		return date;
 	}
+
 	public void setDate(String date) {
 		this.date = date;
 	}
+
 	public String getDetail() {
 		return detail;
 	}
+
 	public void setDetail(String detail) {
 		this.detail = detail;
-	}
-	public String getItemTypeName() {
-		return itemTypeName;
-	}
-	public void setItemTypeName(String itemTypeName) {
-		this.itemTypeName = itemTypeName;
-	}
-	public String getDeveloperName() {
-		return developerName;
-	}
-	public void setDeveloperName(String developerName) {
-		this.developerName = developerName;
 	}
 
 	public int getItemTypeId() {
@@ -77,6 +74,22 @@ public class Record {
 
 	public void setItemTypeId(int itemTypeId) {
 		this.itemTypeId = itemTypeId;
+	}
+
+	public String getItemTypeName() {
+		return itemTypeName;
+	}
+
+	public void setItemTypeName(String itemTypeName) {
+		this.itemTypeName = itemTypeName;
+	}
+
+	public String getDeveloperName() {
+		return developerName;
+	}
+
+	public void setDeveloperName(String developerName) {
+		this.developerName = developerName;
 	}
 
 	public String getStartDate() {
@@ -95,27 +108,11 @@ public class Record {
 		this.endDate = endDate;
 	}
 
-	public ItemType getItemType() {
-		return itemType;
-	}
-
-	public void setItemType(ItemType itemType) {
-		this.itemType = itemType;
-	}
-
 	public int getDeveloperId() {
 		return developerId;
 	}
 
 	public void setDeveloperId(int developerId) {
 		this.developerId = developerId;
-	}
-
-	public Developer getDeveloper() {
-		return developer;
-	}
-
-	public void setDeveloper(Developer developer) {
-		this.developer = developer;
 	}
 }

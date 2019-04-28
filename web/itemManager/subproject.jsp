@@ -40,7 +40,7 @@ window.onload = function(){
 </style>
 <div class="data_list">
 		<div class="data_list_title">
-			子项目管理
+			任务管理
 		</div>
 		<form name="myForm" class="form-search" method="post" action="subproject?action=search" style="padding-bottom: 0px">
 				<span class="data_search">

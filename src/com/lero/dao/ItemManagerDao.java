@@ -10,6 +10,11 @@ import com.lero.model.ItemManager;
 import com.lero.model.PageBean;
 import com.lero.util.StringUtil;
 
+/**
+ * @Description : 项目管理者访问层
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class ItemManagerDao {
 
 	public List<ItemManager> itemManagerList(Connection con, PageBean pageBean, ItemManager s_itemManager)throws Exception {
@@ -115,6 +120,4 @@ public class ItemManagerDao {
 		}
 		return false;
 	}
-	
-	
 }

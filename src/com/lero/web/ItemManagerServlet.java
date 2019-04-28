@@ -17,11 +17,13 @@ import com.lero.util.DbUtil;
 import com.lero.util.PropertiesUtil;
 import com.lero.util.StringUtil;
 
+/**
+ * @Description : 项目管理者控制
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class ItemManagerServlet extends HttpServlet{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	DbUtil dbUtil = new DbUtil();
@@ -127,6 +129,11 @@ public class ItemManagerServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 删除
+	 * @param request
+	 * @param response
+	 */
 	private void itemManagerDelete(HttpServletRequest request,
 			HttpServletResponse response) {
 		String itemManagerId = request.getParameter("itemManagerId");
@@ -146,8 +153,12 @@ public class ItemManagerServlet extends HttpServlet{
 		}
 	}
 
-	private void itemManagerSave(HttpServletRequest request,
-			HttpServletResponse response)throws ServletException, IOException {
+	/**
+	 * 保存
+	 * @param request
+	 * @param response
+	 */
+	private void itemManagerSave(HttpServletRequest request, HttpServletResponse response) {
 		String itemManagerId = request.getParameter("itemManagerId");
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
@@ -197,6 +208,11 @@ public class ItemManagerServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 进入项目管理者编辑
+	 * @param request
+	 * @param response
+	 */
 	private void itemManagerPreSave(HttpServletRequest request,
 			HttpServletResponse response)throws ServletException, IOException {
 		String itemManagerId = request.getParameter("itemManagerId");
@@ -220,6 +236,13 @@ public class ItemManagerServlet extends HttpServlet{
 		request.getRequestDispatcher("mainAdmin.jsp").forward(request, response);
 	}
 
+	/**
+	 * 分页
+	 * @param totalNum
+	 * @param currentPage
+	 * @param pageSize
+	 * @return
+	 */
 	private String genPagation(int totalNum, int currentPage, int pageSize){
 		int totalPage = totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
 		StringBuffer pageCode = new StringBuffer();

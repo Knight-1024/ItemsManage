@@ -2,6 +2,7 @@ package com.lero.dao;
 
 import com.lero.model.Developer;
 import com.lero.model.PageBean;
+import com.lero.model.Subproject;
 import com.lero.util.StringUtil;
 
 import java.sql.Connection;
@@ -10,6 +11,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @Description : 开发者数据访问层
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class DeveloperDao {
 
     public List<Developer> developerList(Connection con, PageBean pageBean, Developer s_developer)throws Exception {
@@ -38,22 +44,6 @@ public class DeveloperDao {
             developerList.add(developer);
         }
         return developerList;
-    }
-
-    public int developerCount(Connection con, Developer developer)throws Exception {
-        StringBuffer sb = new StringBuffer("select count(*) as total from t_developer t1");
-        if(StringUtil.isNotEmpty(developer.getName())) {
-            sb.append(" where t1.name like '%"+developer.getName()+"%'");
-        } else if(StringUtil.isNotEmpty(developer.getUserName())) {
-            sb.append(" where t1.userName like '%"+developer.getUserName()+"%'");
-        }
-        PreparedStatement pstmt = con.prepareStatement(sb.toString());
-        ResultSet rs = pstmt.executeQuery();
-        if(rs.next()) {
-            return rs.getInt("total");
-        } else {
-            return 0;
-        }
     }
 
     public Developer developerShow(Connection con, String developerId)throws Exception {
@@ -104,15 +94,25 @@ public class DeveloperDao {
         return pstmt.executeUpdate();
     }
 
-    public boolean haveDeveloperByUser(Connection con, String userName) throws Exception {
-        String sql = "select * from t_developer t1 where t1.userName=?";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        pstmt.setString(1, userName);
-        ResultSet rs=pstmt.executeQuery();
-        if(rs.next()) {
-            return true;
+    public List<Subproject> showSubList(Connection con) throws Exception {
+        List<Subproject> subprojectList = new ArrayList<Subproject>();
+        String sql = "select * from t_subproject t1 where developerId is null";
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery();
+
+        while(rs.next()) {
+            Subproject subproject=new Subproject();
+            subproject.setSubprojectId(rs.getInt("subprojectId"));
+            int itemTypeId = rs.getInt("itemTypeId");
+            subproject.setItemTypeId(itemTypeId);
+            subproject.setItemTypeName(ItemTypeDao.itemTypeName(con, itemTypeId));
+            subproject.setDeveloperName(rs.getString("developerName"));
+            subproject.setName(rs.getString("name"));
+            subproject.setState(rs.getString("state"));
+            subproject.setSubNumber(rs.getString("subNum"));
+            subproject.setTel(rs.getString("tel"));
+            subprojectList.add(subproject);
         }
-        return false;
+        return subprojectList;
     }
-    
 }

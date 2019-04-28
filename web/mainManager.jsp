@@ -82,7 +82,7 @@
 			<div class="span2 bs-docs-sidebar" >
 				<ul class="nav nav-list bs-docs-sidenav">
 					<li><a href="blank"><i class="icon-chevron-right"></i>首页</a></li>
-					<li><a href="subproject?action=list"><i class="icon-chevron-right"></i>子项目查看</a></li>
+					<li><a href="subproject?action=list"><i class="icon-chevron-right"></i>任务查看</a></li>
 					<li><a href="record?action=list"><i class="icon-chevron-right"></i>提交记录</a></li>
 					<li><a href="password?action=preChange"><i class="icon-chevron-right"></i>修改密码</a></li>
 					<li><a href="login.jsp"><i class="icon-chevron-right"></i>退出系统</a></li>

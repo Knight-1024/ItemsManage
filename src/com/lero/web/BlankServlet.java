@@ -8,14 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * @Description : »¶Ó­Ò³¿ØÖÆ
+ * @Author : ³ÂºêÐË
+ * @data : 2019/3/28
+ */
 public class BlankServlet extends HttpServlet{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -38,6 +39,5 @@ public class BlankServlet extends HttpServlet{
 			request.getRequestDispatcher("mainDeveloper.jsp").forward(request, response);
 		}
 	}
-
 	
 }

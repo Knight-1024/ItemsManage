@@ -17,11 +17,13 @@ import com.lero.model.Subproject;
 import com.lero.util.DbUtil;
 import com.lero.util.StringUtil;
 
+/**
+ * @Description : 任务控制
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class SubprojectServlet extends HttpServlet{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	DbUtil dbUtil = new DbUtil();
@@ -44,22 +46,28 @@ public class SubprojectServlet extends HttpServlet{
 		String searchType = request.getParameter("searchType");
 		String action = request.getParameter("action");
 		Subproject subproject = new Subproject();
+		
 		if("preSave".equals(action)) {
+			//编辑
 			subprojectPreSave(request, response);
 			return;
 		} else if("save".equals(action)){
+			//保存
 			subprojectSave(request, response);
 			return;
 		} else if("delete".equals(action)){
+			//删除
 			subprojectDelete(request, response);
 			return;
 		} else if("list".equals(action)) {
+			//列表
 			if(StringUtil.isNotEmpty(s_subprojectText)) {
+				//搜索
 				if("name".equals(searchType)) {
 					subproject.setName(s_subprojectText);
 				} else if("number".equals(searchType)) {
 					subproject.setSubNumber(s_subprojectText);
-				} else if("dorm".equals(searchType)) {
+				} else if("developer".equals(searchType)) {
 					subproject.setDeveloperName(s_subprojectText);
 				}
 			}
@@ -73,12 +81,13 @@ public class SubprojectServlet extends HttpServlet{
 			request.setAttribute("searchType", searchType);
 			request.setAttribute("buildToSelect", itemTypeId);
 		} else if("search".equals(action)){
+
 			if(StringUtil.isNotEmpty(s_subprojectText)) {
 				if("name".equals(searchType)) {
 					subproject.setName(s_subprojectText);
 				} else if("number".equals(searchType)) {
 					subproject.setSubNumber(s_subprojectText);
-				} else if("dorm".equals(searchType)) {
+				} else if("developer".equals(searchType)) {
 					subproject.setDeveloperName(s_subprojectText);
 				}
 				session.setAttribute("s_subprojectText", s_subprojectText);
@@ -94,13 +103,14 @@ public class SubprojectServlet extends HttpServlet{
 				session.removeAttribute("buildToSelect");
 			}
 		} else {
+
 			if("admin".equals((String)currentUserType)) {
 				if(StringUtil.isNotEmpty(s_subprojectText)) {
 					if("name".equals(searchType)) {
 						subproject.setName(s_subprojectText);
 					} else if("number".equals(searchType)) {
 						subproject.setSubNumber(s_subprojectText);
-					} else if("dorm".equals(searchType)) {
+					} else if("developer".equals(searchType)) {
 						subproject.setDeveloperName(s_subprojectText);
 					}
 					session.setAttribute("s_subprojectText", s_subprojectText);
@@ -119,7 +129,7 @@ public class SubprojectServlet extends HttpServlet{
 							subproject.setName((String)o1);
 						} else if("number".equals((String)o2)) {
 							subproject.setSubNumber((String)o1);
-						} else if("dorm".equals((String)o2)) {
+						} else if("developer".equals((String)o2)) {
 							subproject.setDeveloperName((String)o1);
 						}
 					}
@@ -128,12 +138,13 @@ public class SubprojectServlet extends HttpServlet{
 					}
 				}
 			} else if("itemManager".equals((String)currentUserType)) {
+
 				if(StringUtil.isNotEmpty(s_subprojectText)) {
 					if("name".equals(searchType)) {
 						subproject.setName(s_subprojectText);
 					} else if("number".equals(searchType)) {
 						subproject.setSubNumber(s_subprojectText);
-					} else if("dorm".equals(searchType)) {
+					} else if("developer".equals(searchType)) {
 						subproject.setDeveloperName(s_subprojectText);
 					}
 					session.setAttribute("s_subprojectText", s_subprojectText);
@@ -147,7 +158,7 @@ public class SubprojectServlet extends HttpServlet{
 							subproject.setName((String)o1);
 						} else if("number".equals((String)o2)) {
 							subproject.setSubNumber((String)o1);
-						} else if("dorm".equals((String)o2)) {
+						} else if("developer".equals((String)o2)) {
 							subproject.setDeveloperName((String)o1);
 						}
 					}
@@ -163,6 +174,7 @@ public class SubprojectServlet extends HttpServlet{
 				request.setAttribute("subprojectList", subprojectList);
 				request.setAttribute("mainPage", "admin/subproject.jsp");
 				request.getRequestDispatcher("mainAdmin.jsp").forward(request, response);
+
 			} else if("itemManager".equals((String)currentUserType)) {
 				ItemManager manager = (ItemManager)(session.getAttribute("currentUser"));
 				int buildId = manager.getItemTypeId();
@@ -172,6 +184,7 @@ public class SubprojectServlet extends HttpServlet{
 				request.setAttribute("subprojectList", subprojectList);
 				request.setAttribute("mainPage", "itemManager/subproject.jsp");
 				request.getRequestDispatcher("mainManager.jsp").forward(request, response);
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -184,6 +197,11 @@ public class SubprojectServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 删除任务
+	 * @param request
+	 * @param response
+	 */
 	private void subprojectDelete(HttpServletRequest request,
 			HttpServletResponse response) {
 		String subprojectId = request.getParameter("subprojectId");
@@ -203,18 +221,21 @@ public class SubprojectServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 保存任务
+	 * @param request
+	 * @param response
+	 */
 	private void subprojectSave(HttpServletRequest request,
 			HttpServletResponse response)throws ServletException, IOException {
 		String subprojectId = request.getParameter("subprojectId");
 		String userName = request.getParameter("userName");
-		String password = request.getParameter("password");
 		String itemTypeId = request.getParameter("itemTypeId");
 		String developerName = request.getParameter("developerName");
 		String name = request.getParameter("name");
-		String sex = request.getParameter("sex");
+		String state = request.getParameter("state");
 		String tel = request.getParameter("tel");
-		password = "123";  //默认值123
-		Subproject subproject = new Subproject(userName, password, Integer.parseInt(itemTypeId), developerName, name, sex, tel);
+		Subproject subproject = new Subproject(userName, Integer.parseInt(itemTypeId), developerName, name, state, tel);
 		if(StringUtil.isNotEmpty(subprojectId)) {
 			subproject.setSubprojectId(Integer.parseInt(subprojectId));
 		}
@@ -257,6 +278,11 @@ public class SubprojectServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 进入任务编辑
+	 * @param request
+	 * @param response
+	 */
 	private void subprojectPreSave(HttpServletRequest request,
 			HttpServletResponse response)throws ServletException, IOException {
 		String subprojectId = request.getParameter("subprojectId");

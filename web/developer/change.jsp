@@ -24,7 +24,7 @@ function checkForm(){
 		<div class="data_list_title">
 			修改个人信息
 		</div>
-		<form action="password?action=change" method="post" onsubmit="return checkForm()">
+		<form action="developer?action=change" method="post" onsubmit="return checkForm()">
 			<div class="data_form" >
 				<input type="hidden" id="developerId" name="developerId" value="${developer.developerId }"/>
 					<table align="center">
@@ -38,26 +38,14 @@ function checkForm(){
 						</tr>
 						<tr>
 							<td><font color="red">*</font>性别</td>
-							<td><select id="sex"  name="sex" value="${sex }"  style="margin-top:5px;height:30px; width:205px;">
-								<option value ="男">男</option>
-								<option value ="女">女</option>
+							<td><select id="sex"  name="sex" value="${sex }" style="margin-top:5px;height:30px; width:205px;" >
+								<option value ="男" ${sex eq '男'?'selected="selected"':''}>男</option>
+								<option value ="女" ${sex eq '女'?'selected="selected"':''}>女</option>
 							</select></td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>电话</td>
 							<td><input type="text" id="tel"  name="tel" value="${tel }"  style="margin-top:5px;height:30px;" /></td>
-						</tr>
-						<tr>
-							<td><font color="red">*</font>原密码：</td>
-							<td><input type="password" id="oldPassword"  name="oldPassword" value="${oldPassword }"  style="margin-top:5px;height:30px;" /></td>
-						</tr>
-						<tr>
-							<td><font color="red">*</font>新密码：</td>
-							<td><input type="password" id="newPassword"  name="newPassword" value="${newPassword }" style="margin-top:5px;height:30px;" /></td>
-						</tr>
-						<tr>
-							<td><font color="red">*</font>重复密码：</td>
-							<td><input type="password" id="rPassword"  name="rPassword" value="${rPassword }" style="margin-top:5px;height:30px;" /></td>
 						</tr>
 					</table>
 					<div align="center">

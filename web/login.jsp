@@ -2,7 +2,7 @@
     pageEncoding="utf-8"%>
 <%@ page import="com.lero.model.Admin" %>
 <%@ page import="com.lero.model.ItemManager" %>
-<%@ page import="com.lero.model.Subproject" %>
+<%@ page import="com.lero.model.Developer" %>
 <%
 	if(request.getAttribute("user")==null){
 		String userName=null;
@@ -36,8 +36,8 @@
 		} else if("itemManager".equals(userType)) {
 			pageContext.setAttribute("user", new ItemManager(userName,password));
 			pageContext.setAttribute("userType", 2);
-		} else if("subproject".equals(userType)) {
-			pageContext.setAttribute("user", new Subproject(userName,password));
+		} else if("developer".equals(userType)) {
+			pageContext.setAttribute("user", new Developer(userName,password));
 			pageContext.setAttribute("userType", 3);
 		}
 		

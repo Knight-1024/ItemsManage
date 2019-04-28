@@ -18,11 +18,13 @@ import com.lero.model.ItemManager;
 import com.lero.model.Subproject;
 import com.lero.util.DbUtil;
 
+/**
+ * @Description : 密码控制
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class PasswordServlet extends HttpServlet{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	DbUtil dbUtil = new DbUtil();
@@ -46,65 +48,16 @@ public class PasswordServlet extends HttpServlet{
 		} else if("change".equals(action)) {
 			passwordChange(request, response);
 			return;
-		}else if("developer".equals(action)){
-			developer(request, response);
 		}
 	}
 
-	private void developer(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
-		String userName = request.getParameter("userName");
-		String name = request.getParameter("name");
-		String sex = request.getParameter("sex");
-		String tel = request.getParameter("tel");
-		String oldPassword = request.getParameter("oldPassword");
-		String newPassword = request.getParameter("newPassword");
-		Connection con = null;
-		try {
-			con = dbUtil.getCon();
-
-			Developer developer = (Developer) (session.getAttribute("currentUser"));
-			if(userName!=null&&!"".equals(userName)){
-				developer.setUserName(userName);
-			}
-			if(name!=null&&!"".equals(name)){
-				developer.setUserName(name);
-			}
-			if(sex!=null&&!"".equals(sex)){
-				developer.setUserName(sex);
-			}
-			if(tel!=null&&!"".equals(tel)&&isNumeric(tel)){
-				developer.setUserName(tel);
-			}
-			userDao.developerUpdate(con,developer);
-			String msg = "";
-			if (!"".equals(oldPassword) && oldPassword!=null && oldPassword.equals(developer.getPassword())) {
-				userDao.developerUpdate(con, developer.getDeveloperId(), newPassword);
-				developer.setPassword(newPassword);
-			} else {
-				msg = "原密码错误，密码修改失败！";
-			}
-			request.setAttribute("userName", developer.getUserName());
-			request.setAttribute("name", developer.getName());
-			request.setAttribute("sex", developer.getSex());
-			request.setAttribute("tel", developer.getTel());
-			request.setAttribute("oldPassword", oldPassword);
-			request.setAttribute("newPassword", newPassword);
-			request.setAttribute("rPassword", newPassword);
-			request.setAttribute("error", "信息修改成功！"+msg);
-			request.setAttribute("mainPage", "developer/change.jsp");
-			request.getRequestDispatcher("mainDeveloper.jsp").forward(request, response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				dbUtil.closeCon(con);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
+	/**
+	 * 密码修改保存
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void passwordChange(HttpServletRequest request,
 			HttpServletResponse response)throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -153,25 +106,6 @@ public class PasswordServlet extends HttpServlet{
 					request.setAttribute("mainPage", "itemManager/passwordChange.jsp");
 					request.getRequestDispatcher("mainManager.jsp").forward(request, response);
 				}
-			} else if("subproject".equals((String)currentUserType)) {
-				Subproject subproject = (Subproject)(session.getAttribute("currentUser"));
-				if(oldPassword.equals(subproject.getPassword())) {
-					userDao.adminUpdate(con, subproject.getSubprojectId(), newPassword);
-					subproject.setPassword(newPassword);
-					request.setAttribute("oldPassword", oldPassword);
-					request.setAttribute("newPassword", newPassword);
-					request.setAttribute("rPassword", newPassword);
-					request.setAttribute("error", "修改成功 ");
-					request.setAttribute("mainPage", "subproject/passwordChange.jsp");
-					request.getRequestDispatcher("mainSubproject.jsp").forward(request, response);
-				} else {
-					request.setAttribute("oldPassword", oldPassword);
-					request.setAttribute("newPassword", newPassword);
-					request.setAttribute("rPassword", newPassword);
-					request.setAttribute("error", "原密码错误");
-					request.setAttribute("mainPage", "subproject/passwordChange.jsp");
-					request.getRequestDispatcher("mainSubproject.jsp").forward(request, response);
-				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -184,6 +118,13 @@ public class PasswordServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 进入密码修改
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void passwordPreChange(HttpServletRequest request,
 			HttpServletResponse response)throws ServletException, IOException {
 		
@@ -207,9 +148,4 @@ public class PasswordServlet extends HttpServlet{
 		}
 	}
 
-	public static boolean isNumeric(String str){
-		Pattern pattern = Pattern.compile("[0-9]*");
-		Matcher isNum = pattern.matcher(str);
-		return isNum.matches();
-	}
 }

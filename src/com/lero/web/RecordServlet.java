@@ -21,11 +21,13 @@ import com.lero.model.Subproject;
 import com.lero.util.DbUtil;
 import com.lero.util.StringUtil;
 
+/**
+ * @Description : 消息控制
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class RecordServlet extends HttpServlet{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	DbUtil dbUtil = new DbUtil();
@@ -149,6 +151,11 @@ public class RecordServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 信息删除
+	 * @param request
+	 * @param response
+	 */
 	private void recordDelete(HttpServletRequest request,
 			HttpServletResponse response) {
 		String recordId = request.getParameter("recordId");
@@ -168,6 +175,13 @@ public class RecordServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 信息保存
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void recordSave(HttpServletRequest request,
 			HttpServletResponse response)throws ServletException, IOException {
 		String recordId = request.getParameter("recordId");
@@ -222,6 +236,11 @@ public class RecordServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 进入信息编辑
+	 * @param request
+	 * @param response
+	 */
 	private void recordPreSave(HttpServletRequest request,
 			HttpServletResponse response)throws ServletException, IOException {
 		String recordId = request.getParameter("recordId");

@@ -29,10 +29,10 @@
 		<div class="data_list_title">
 		<c:choose>
 			<c:when test="${subproject.subprojectId!=null }">
-				修改子项目信息
+				修改任务信息
 			</c:when>
 			<c:otherwise>
-				添加子项目
+				添加任务
 			</c:otherwise>
 		</c:choose>
 		</div>
@@ -51,10 +51,10 @@
 						<tr>
 							<td><font color="red">*</font>状态：</td>
 							<td>
-								<select id="sex" name="sex" style="width: 90px;">
+								<select id="state" name="state" style="width: 90px;">
 									<option value="">请选择...</option>
-									<option value="未完成" ${subproject.state eq "未完成"?'selected':'' }>未完成</option>
-									<option value="完成" ${subproject.state eq "完成"?'selected':'' }>完成</option>
+									<option value="0" ${subproject.state eq "0"?'selected':'' }>未完成</option>
+									<option value="1" ${subproject.state eq "1"?'selected':'' }>完成</option>
 								</select>
 							</td>
 						</tr>

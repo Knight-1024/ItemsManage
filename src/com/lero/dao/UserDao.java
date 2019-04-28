@@ -7,8 +7,12 @@ import java.sql.ResultSet;
 import com.lero.model.Admin;
 import com.lero.model.Developer;
 import com.lero.model.ItemManager;
-import com.lero.model.Subproject;
 
+/**
+ * @Description : 用户数据访问层
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class UserDao {
 
 	public Admin Login(Connection con, Admin admin)throws Exception {
@@ -77,14 +81,6 @@ public class UserDao {
 		pstmt.setInt(2, adminId);
 		return pstmt.executeUpdate();
 	}
-	
-	public int managerUpdate(Connection con, int managerId, String password)throws Exception {
-		String sql = "update t_developermanager set password=? where itemManId=?";
-		PreparedStatement pstmt = con.prepareStatement(sql);
-		pstmt.setString(1, password);
-		pstmt.setInt(2, managerId);
-		return pstmt.executeUpdate();
-	}
 
 	public int developerUpdate(Connection con, int developerId, String password)throws Exception {
 		String sql = "update t_developer set password=? where developerId=?";
@@ -104,5 +100,4 @@ public class UserDao {
 		pstmt.setInt(5, developer.getDeveloperId());
 		return pstmt.executeUpdate();
 	}
-
 }

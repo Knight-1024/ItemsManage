@@ -17,6 +17,11 @@ import com.lero.model.ItemManager;
 import com.lero.model.Subproject;
 import com.lero.util.DbUtil;
 
+/**
+ * @Description : 登录控制
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -112,12 +117,25 @@ public class LoginServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * 记住我
+	 * @param userName
+	 * @param password
+	 * @param userType
+	 * @param response
+	 */
 	private void rememberMe(String userName, String password, String userType, HttpServletResponse response) {
 		Cookie user = new Cookie("loginuser", userName+"-"+password+"-"+userType+"-"+"yes");
 		user.setMaxAge(1*60*60*24*7);
 		response.addCookie(user);
 	}
-	
+
+	/**
+	 * 删除cookie
+	 * @param userName
+	 * @param request
+	 * @param response
+	 */
 	private void deleteCookie(String userName, HttpServletRequest request, HttpServletResponse response) {
 		Cookie[] cookies=request.getCookies();
 		for(int i=0;cookies!=null && i<cookies.length;i++){

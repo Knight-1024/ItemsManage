@@ -4,14 +4,14 @@
 
 <script type="text/javascript">
 	function subprojectDelete(subprojectId) {
-		if(confirm("您确定要删除这个子项目吗？")) {
+		if(confirm("您确定要删除这个任务吗？")) {
 			window.location="subproject?action=delete&subprojectId="+subprojectId;
 		}
 	}
 </script>
 <div class="data_list">
 		<div class="data_list_title">
-			子项目管理
+			任务管理
 		</div>
 		<form name="myForm" class="form-search" method="post" action="subproject?action=search">
 				<button class="btn btn-success" type="button" style="margin-right: 50px;" onclick="javascript:window.location='subproject?action=preSave'">添加</button>
@@ -25,7 +25,7 @@
 					<select id="searchType" name="searchType" style="width: 80px;">
 					<option value="name">名称</option>
 					<option value="number" ${searchType eq "number"?'selected':'' }>编码</option>
-					<option value="dorm" ${searchType eq "dorm"?'selected':'' }>开发者</option>
+					<option value="developer" ${searchType eq "developer"?'selected':'' }>开发者</option>
 					</select>
 					&nbsp;<input id="s_subprojectText" name="s_subprojectText" type="text"  style="width:120px;height: 30px;" class="input-medium search-query" value="${s_subprojectText }">
 					&nbsp;<button type="submit" class="btn btn-info" onkeydown="if(event.keyCode==13) myForm.submit()">搜索</button>

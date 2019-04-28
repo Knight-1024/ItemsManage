@@ -10,6 +10,11 @@ import com.lero.model.ItemType;
 import com.lero.model.Record;
 import com.lero.util.StringUtil;
 
+/**
+ * @Description : 消息数据访问层
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class RecordDao {
 	public List<Record> recordList(Connection con, Record s_record)throws Exception {
 		List<Record> recordList = new ArrayList<Record>();
@@ -126,28 +131,7 @@ public class RecordDao {
 		}
 		return itemTypeList;
 	}
-//	
-//	public int subprojectCount(Connection con, Subproject s_subproject)throws Exception {
-//		StringBuffer sb = new StringBuffer("select count(*) as total from t_subproject t1");
-//		if(StringUtil.isNotEmpty(s_subproject.getName())) {
-//			sb.append(" and t1.name like '%"+s_subproject.getName()+"%'");
-//		} else if(StringUtil.isNotEmpty(s_subproject.getSubNumber())) {
-//			sb.append(" and t1.subNum like '%"+s_subproject.getSubNumber()+"%'");
-//		} else if(StringUtil.isNotEmpty(s_subproject.getDeveloperName())) {
-//			sb.append(" and t1.developerName like '%"+s_subproject.getDeveloperName()+"%'");
-//		}
-//		if(s_subproject.getItemTypeId()!=0) {
-//			sb.append(" and t1.itemTypeId="+s_subproject.getItemTypeId());
-//		}
-//		PreparedStatement pstmt = con.prepareStatement(sb.toString().replaceFirst("and", "where"));
-//		ResultSet rs = pstmt.executeQuery();
-//		if(rs.next()) {
-//			return rs.getInt("total");
-//		} else {
-//			return 0;
-//		}
-//	}
-	
+
 	public Record recordShow(Connection con, String recordId)throws Exception {
 		String sql = "select * from t_record t1 where t1.recordId=?";
 		PreparedStatement pstmt=con.prepareStatement(sql);
@@ -198,6 +182,4 @@ public class RecordDao {
 		pstmt.setInt(6, record.getRecordId());
 		return pstmt.executeUpdate();
 	}
-	
-	
 }

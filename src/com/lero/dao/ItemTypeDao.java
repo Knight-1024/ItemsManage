@@ -11,6 +11,11 @@ import com.lero.model.ItemManager;
 import com.lero.model.PageBean;
 import com.lero.util.StringUtil;
 
+/**
+ * @Description : 项目类型数据访问层
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class ItemTypeDao {
 
 	public List<ItemType> itemTypeList(Connection con, PageBean pageBean, ItemType s_itemType)throws Exception {

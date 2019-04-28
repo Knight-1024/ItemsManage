@@ -12,6 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * @Description : µÇÂ¼¹ýÂËÆ÷
+ * @Author : ³ÂºêÐË
+ * @data : 2019/3/28
+ */
 public class LoginFilter implements Filter{
 
 	public void destroy() {
@@ -33,7 +38,7 @@ public class LoginFilter implements Filter{
 	}
 
 	public void init(FilterConfig arg0) throws ServletException {
-		
+
 	}
 
 }

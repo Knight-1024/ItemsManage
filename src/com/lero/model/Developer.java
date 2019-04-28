@@ -1,5 +1,10 @@
 package com.lero.model;
 
+/**
+ * @Description : 开发者实体
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class Developer {
 
     private int developerId;
@@ -10,9 +15,8 @@ public class Developer {
     private String sex;
     private String tel;
 
-    private ItemManager itemManager;
-
-    public Developer(){}
+    public Developer() {
+    }
 
     public Developer(String userName, String password){
         this.userName = userName;
@@ -83,13 +87,5 @@ public class Developer {
 
     public void setTel(String tel) {
         this.tel = tel;
-    }
-
-    public ItemManager getItemManager() {
-        return itemManager;
-    }
-
-    public void setItemManager(ItemManager itemManager) {
-        this.itemManager = itemManager;
     }
 }

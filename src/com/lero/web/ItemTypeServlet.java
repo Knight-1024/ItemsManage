@@ -18,11 +18,13 @@ import com.lero.util.DbUtil;
 import com.lero.util.PropertiesUtil;
 import com.lero.util.StringUtil;
 
+/**
+ * @Description : 项目类型控制
+ * @Author : 陈宏兴
+ * @data : 2019/3/28
+ */
 public class ItemTypeServlet extends HttpServlet{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	DbUtil dbUtil = new DbUtil();
@@ -110,7 +112,12 @@ public class ItemTypeServlet extends HttpServlet{
 			}
 		}
 	}
-	
+
+	/**
+	 * 更换项目类型的管理者
+	 * @param request
+	 * @param response
+	 */
 	private void managerMove(HttpServletRequest request,
 			HttpServletResponse response) {
 		String itemTypeId = request.getParameter("itemTypeId");
@@ -118,13 +125,18 @@ public class ItemTypeServlet extends HttpServlet{
 		Connection con = null;
 		try {
 			con = dbUtil.getCon();
-			itemTypeDao.managerUpdateWithId(con, itemManagerId, "0");
+			itemTypeDao.managerUpdateWithId(con, itemManagerId, itemTypeId);
 			request.getRequestDispatcher("itemType?action=manager&itemTypeId="+itemTypeId).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * 添加项目类型的管理者
+	 * @param request
+	 * @param response
+	 */
 	private void itemTypeAddManager(HttpServletRequest request,
 			HttpServletResponse response) {
 		String itemTypeId = request.getParameter("itemTypeId");
@@ -139,6 +151,11 @@ public class ItemTypeServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 显示项目类型的管理者
+	 * @param request
+	 * @param response
+	 */
 	private void itemTypeManager(HttpServletRequest request,
 			HttpServletResponse response) {
 		String itemTypeId = request.getParameter("itemTypeId");
@@ -157,6 +174,11 @@ public class ItemTypeServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 删除项目类型
+	 * @param request
+	 * @param response
+	 */
 	private void itemTypeDelete(HttpServletRequest request,
 			HttpServletResponse response) {
 		String itemTypeId = request.getParameter("itemTypeId");
@@ -164,7 +186,7 @@ public class ItemTypeServlet extends HttpServlet{
 		try {
 			con = dbUtil.getCon();
 			if(itemTypeDao.existManOrDeveloperWithId(con, itemTypeId)) {
-				request.setAttribute("error", "该项目类别下有管理员或子项目，不能删除该项目类别");
+				request.setAttribute("error", "该项目类别下有管理员或任务，不能删除该项目类别");
 			} else {
 				itemTypeDao.itemTypeDelete(con, itemTypeId);
 			}
@@ -180,8 +202,12 @@ public class ItemTypeServlet extends HttpServlet{
 		}
 	}
 
-	private void itemTypeSave(HttpServletRequest request,
-			HttpServletResponse response)throws ServletException, IOException {
+	/**
+	 * 保存项目类型
+	 * @param request
+	 * @param response
+	 */
+	private void itemTypeSave(HttpServletRequest request, HttpServletResponse response){
 		String itemTypeId = request.getParameter("itemTypeId");
 		String itemTypeName = request.getParameter("itemTypeName");
 		String detail = request.getParameter("detail");
@@ -217,6 +243,11 @@ public class ItemTypeServlet extends HttpServlet{
 		}
 	}
 
+	/**
+	 * 进入项目类型编辑
+	 * @param request
+	 * @param response
+	 */
 	private void itemTypePreSave(HttpServletRequest request,
 			HttpServletResponse response)throws ServletException, IOException {
 		String itemTypeId = request.getParameter("itemTypeId");
@@ -240,6 +271,13 @@ public class ItemTypeServlet extends HttpServlet{
 		request.getRequestDispatcher("mainAdmin.jsp").forward(request, response);
 	}
 
+	/**
+	 * 分页
+	 * @param totalNum
+	 * @param currentPage
+	 * @param pageSize
+	 * @return
+	 */
 	private String genPagation(int totalNum, int currentPage, int pageSize){
 		int totalPage = totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
 		StringBuffer pageCode = new StringBuffer();

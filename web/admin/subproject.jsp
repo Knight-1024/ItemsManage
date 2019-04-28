@@ -28,7 +28,7 @@ window.onload = function(){
 	$("#DataTables_Table_0_wrapper .row-fluid").remove();
 };
 	function subprojectDelete(subprojectId) {
-		if(confirm("您确定要删除这个子项目吗？")) {
+		if(confirm("您确定要删除这个任务吗？")) {
 			window.location="subproject?action=delete&subprojectId="+subprojectId;
 		}
 	}
@@ -46,13 +46,13 @@ window.onload = function(){
 </style>
 <div class="data_list">
 		<div class="data_list_title">
-			子项目管理
+			任务管理
 		</div>
 		<form name="myForm" class="form-search" method="post" action="subproject?action=search" style="padding-bottom: 0px">
 				<button class="btn btn-success" type="button" style="margin-right: 50px;" onclick="javascript:window.location='subproject?action=preSave'">添加</button>
 				<span class="data_search">
 					<select id="buildToSelect" name="buildToSelect" style="width: 110px;">
-					<option value="">全部子项目</option>
+					<option value="">全部任务</option>
 					<c:forEach var="itemType" items="${itemTypeList }">
 						<option value="${itemType.itemTypeId }" ${buildToSelect==itemType.itemTypeId?'selected':'' }>${itemType.itemTypeName }</option>
 					</c:forEach>
