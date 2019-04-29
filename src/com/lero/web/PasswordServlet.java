@@ -90,8 +90,27 @@ public class PasswordServlet extends HttpServlet{
 			} else if("itemManager".equals((String)currentUserType)) {
 				ItemManager manager = (ItemManager)(session.getAttribute("currentUser"));
 				if(oldPassword.equals(manager.getPassword())) {
-					userDao.adminUpdate(con, manager.getItemManagerId(), newPassword);
+					userDao.managerUpdate(con, manager.getItemManagerId(), newPassword);
 					manager.setPassword(newPassword);
+					request.setAttribute("oldPassword", oldPassword);
+					request.setAttribute("newPassword", newPassword);
+					request.setAttribute("rPassword", newPassword);
+					request.setAttribute("error", "修改成功 ");
+					request.setAttribute("mainPage", "itemManager/passwordChange.jsp");
+					request.getRequestDispatcher("mainManager.jsp").forward(request, response);
+				} else {
+					request.setAttribute("oldPassword", oldPassword);
+					request.setAttribute("newPassword", newPassword);
+					request.setAttribute("rPassword", newPassword);
+					request.setAttribute("error", "原密码错误");
+					request.setAttribute("mainPage", "itemManager/passwordChange.jsp");
+					request.getRequestDispatcher("mainManager.jsp").forward(request, response);
+				}
+			} else if("developer".equals((String)currentUserType)) {
+				Developer developer = (Developer)(session.getAttribute("currentUser"));
+				if(oldPassword.equals(developer.getPassword())) {
+					userDao.developerUpdate(con, developer.getDeveloperId(), newPassword);
+					developer.setPassword(newPassword);
 					request.setAttribute("oldPassword", oldPassword);
 					request.setAttribute("newPassword", newPassword);
 					request.setAttribute("rPassword", newPassword);
@@ -137,13 +156,7 @@ public class PasswordServlet extends HttpServlet{
 			request.setAttribute("mainPage", "itemManager/passwordChange.jsp");
 			request.getRequestDispatcher("mainManager.jsp").forward(request, response);
 		} else if("developer".equals((String)currentUserType)) {
-
-			Developer developer = (Developer) (session.getAttribute("currentUser"));
-			request.setAttribute("userName", developer.getUserName());
-			request.setAttribute("name", developer.getName());
-			request.setAttribute("sex", developer.getSex());
-			request.setAttribute("tel", developer.getTel());
-			request.setAttribute("mainPage", "developer/change.jsp");
+			request.setAttribute("mainPage", "developer/passwordChange.jsp");
 			request.getRequestDispatcher("mainDeveloper.jsp").forward(request, response);
 		}
 	}

@@ -26,7 +26,6 @@ function checkForm(){
 		</div>
 		<form action="password?action=change" method="post" onsubmit="return checkForm()">
 			<div class="data_form" >
-				<input type="hidden" id="subprojectId" name="subprojectId" value="${subproject.subprojectId }"/>
 					<table align="center">
 						<tr>
 							<td><font color="red">*</font>原密码：</td>

@@ -50,9 +50,21 @@ public class DeveloperServlet  extends HttpServlet {
             //领取操作
             preDraw(request,response);
             return;
-        }else if("change".equals(action)){
+        } else if ("preChange".equals(action)) {
+            //进入个人信息修改
+            preChange(request, response);
+            return;
+        } else if ("change".equals(action)) {
             //修改个人信息
-            change(request,response);
+            change(request, response);
+            return;
+        }else if("mySublist".equals(action)){
+            //我的任务
+            mySublist(request,response);
+            return;
+        }else if("submit".equals(action)){
+            //提交
+            submit(request,response);
             return;
         }
 
@@ -109,8 +121,83 @@ public class DeveloperServlet  extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        request.setAttribute("msg","领取成功");
+        request.setAttribute("error","领取成功");
         sublist(request,response);
+    }
+
+    /**
+     * 显示已领取列表
+     *
+     * @param request
+     * @param response
+     */
+    private void mySublist(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Developer developer = (Developer) (session.getAttribute("currentUser"));
+        Connection con = null;
+        try {
+            con = dbUtil.getCon();
+            List<Subproject> subprojectList = developerDao.showMyList(con,developer.getDeveloperId());
+            request.setAttribute("subprojectList", subprojectList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                dbUtil.closeCon(con);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        request.setAttribute("mainPage", "developer/mySublist.jsp");
+        request.getRequestDispatcher("mainDeveloper.jsp").forward(request, response);
+    }
+
+    /**
+     * 提交操作
+     *
+     * @param request
+     * @param response
+     */
+    private void submit(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //TODO 提交关联id
+        Connection con = null;
+        try {
+            con = dbUtil.getCon();
+            List<Subproject> subprojectList = developerDao.showSubList(con);
+            request.setAttribute("subprojectList", subprojectList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                dbUtil.closeCon(con);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        request.setAttribute("error","提交成功");
+        mySublist(request,response);
+    }
+
+    /**
+     * 进入个人信息修改
+     * @param request
+     * @param response
+     */
+    private void preChange(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        HttpSession session = request.getSession();
+        Developer developer = (Developer) (session.getAttribute("currentUser"));
+
+        request.setAttribute("userName", developer.getUserName());
+        request.setAttribute("name", developer.getName());
+        request.setAttribute("sex", developer.getSex());
+        request.setAttribute("tel", developer.getTel());
+        request.setAttribute("mainPage", "developer/change.jsp");
+        request.getRequestDispatcher("mainDeveloper.jsp").forward(request, response);
     }
 
     /**

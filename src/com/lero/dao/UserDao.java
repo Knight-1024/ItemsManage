@@ -82,6 +82,14 @@ public class UserDao {
 		return pstmt.executeUpdate();
 	}
 
+	public int managerUpdate(Connection con, int adminId, String password)throws Exception {
+		String sql = "update t_itemmanager set password=? where itemManId=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, password);
+		pstmt.setInt(2, adminId);
+		return pstmt.executeUpdate();
+	}
+
 	public int developerUpdate(Connection con, int developerId, String password)throws Exception {
 		String sql = "update t_developer set password=? where developerId=?";
 		PreparedStatement pstmt = con.prepareStatement(sql);

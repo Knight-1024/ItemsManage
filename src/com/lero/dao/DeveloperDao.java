@@ -115,4 +115,27 @@ public class DeveloperDao {
         }
         return subprojectList;
     }
+
+    public List<Subproject> showMyList(Connection con,int developerId) throws Exception {
+        List<Subproject> subprojectList = new ArrayList<Subproject>();
+        String sql = "select * from t_subproject t1 where developerId = ?";
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        pstmt.setInt(1,developerId);
+        ResultSet rs = pstmt.executeQuery();
+
+        while(rs.next()) {
+            Subproject subproject=new Subproject();
+            subproject.setSubprojectId(rs.getInt("subprojectId"));
+            int itemTypeId = rs.getInt("itemTypeId");
+            subproject.setItemTypeId(itemTypeId);
+            subproject.setItemTypeName(ItemTypeDao.itemTypeName(con, itemTypeId));
+            subproject.setDeveloperName(rs.getString("developerName"));
+            subproject.setName(rs.getString("name"));
+            subproject.setState(rs.getString("state"));
+            subproject.setSubNumber(rs.getString("subNum"));
+            subproject.setTel(rs.getString("tel"));
+            subprojectList.add(subproject);
+        }
+        return subprojectList;
+    }
 }
