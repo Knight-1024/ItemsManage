@@ -153,7 +153,7 @@ public class RecordDao {
 	}
 	
 	public int recordAdd(Connection con, Record record)throws Exception {
-		String sql = "insert into t_record values(null,?,?,?,?,?,?)";
+		String sql = "insert into t_record values(null,?,?,?,?,?,?,null)";
 		PreparedStatement pstmt=con.prepareStatement(sql);
 		pstmt.setString(1, record.getSubprojectNumber());
 		pstmt.setString(2, record.getSubprojectName());

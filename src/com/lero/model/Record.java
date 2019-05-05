@@ -12,12 +12,12 @@ public class Record {
 	private String subprojectName;
 	private String date;
 	private String detail;
-	private int itemTypeId;
+	private Integer itemTypeId;
 	private String itemTypeName;
 	private String developerName;
 	private String startDate;
 	private String endDate;
-	private int developerId;
+	private Integer developerId;
 
 	public Record() {
 	}
@@ -68,14 +68,6 @@ public class Record {
 		this.detail = detail;
 	}
 
-	public int getItemTypeId() {
-		return itemTypeId;
-	}
-
-	public void setItemTypeId(int itemTypeId) {
-		this.itemTypeId = itemTypeId;
-	}
-
 	public String getItemTypeName() {
 		return itemTypeName;
 	}
@@ -108,11 +100,19 @@ public class Record {
 		this.endDate = endDate;
 	}
 
-	public int getDeveloperId() {
+	public Integer getItemTypeId() {
+		return itemTypeId;
+	}
+
+	public void setItemTypeId(Integer itemTypeId) {
+		this.itemTypeId = itemTypeId;
+	}
+
+	public Integer getDeveloperId() {
 		return developerId;
 	}
 
-	public void setDeveloperId(int developerId) {
+	public void setDeveloperId(Integer developerId) {
 		this.developerId = developerId;
 	}
 }

@@ -70,14 +70,14 @@ window.onload = function(){
 				<c:forEach  varStatus="i" var="subproject" items="${subprojectList }">
 					<tr>
 						<%-- <td>${i.count+(page-1)*pageSize }</td> --%>
-						<td>${subproject.userName }</td>
+						<td>${subproject.subNumber }</td>
 						<td>${subproject.name }</td>
-						<td>${subproject.state }</td>
+						<td>${subproject.state eq "1"?"完成":"未完成"}</td>
 						<td>${subproject.itemTypeName==null?"无":subproject.itemTypeName }</td>
 						<td>${subproject.developerName }</td>
 						<td>${subproject.tel }</td>
 						<td>
-							<button class="btn btn-mini btn-success" type="button" onclick="javascript:window.location='record?action=preSave&subprojectNumber=${subproject.userName }'">提交记录</button>
+							<button class="btn btn-mini btn-success" type="button" onclick="javascript:window.location='record?action=preSave&subprojectNumber=${subproject.subNumber }'">提交记录</button>
 						</td>
 					</tr>
 				</c:forEach>

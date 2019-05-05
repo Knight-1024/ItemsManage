@@ -27,10 +27,7 @@
 					<!-- <th>编号</th> -->
 					<th>编码</th>
 					<th>名称</th>
-					<th>状态</th>
 					<th>归属</th>
-					<th>开发者</th>
-					<th>开发者电话</th>
 					<th>操作</th>
 				</tr>
 				</thead>
@@ -38,12 +35,9 @@
 				<c:forEach  varStatus="i" var="subproject" items="${subprojectList }">
 					<tr>
 						<%-- <td>${i.count+(page-1)*pageSize }</td> --%>
-						<td>${subproject.userName }</td>
+						<td>${subproject.subNumber }</td>
 						<td>${subproject.name }</td>
-						<td>${subproject.state }</td>
 						<td>${subproject.itemTypeName==null?"无":subproject.itemTypeName }</td>
-						<td>${subproject.developerName }</td>
-						<td>${subproject.tel }</td>
 						<td><button class="btn btn-mini btn-info" type="button" onclick="javascript:window.location='developer?action=preDraw&subprojectId=${subproject.subprojectId }'">领取</button>&nbsp;
 					</tr>
 				</c:forEach>
