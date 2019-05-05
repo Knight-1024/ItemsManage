@@ -85,7 +85,7 @@ window.onload = function(){
 						<%-- <td>${i.count+(page-1)*pageSize }</td> --%>
 						<td>${subproject.userName }</td>
 						<td>${subproject.name }</td>
-						<td>${subproject.state }</td>
+						<td>${subproject.state eq "1"?"完成":"未完成"}</td>
 						<td>${subproject.itemTypeName==null?"无":subproject.itemTypeName }</td>
 						<td>${subproject.developerName }</td>
 						<td>${subproject.tel }</td>

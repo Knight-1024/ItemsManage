@@ -7,7 +7,7 @@ package com.lero.model;
  */
 public class ItemManager {
 	
-	private int ItemManagerId;
+	private int itemManagerId;
 	private String userName;
 	private String password;
 	private int itemTypeId;
@@ -34,11 +34,11 @@ public class ItemManager {
 	}
 
 	public int getItemManagerId() {
-		return ItemManagerId;
+		return itemManagerId;
 	}
 
 	public void setItemManagerId(int itemManagerId) {
-		ItemManagerId = itemManagerId;
+		this.itemManagerId = itemManagerId;
 	}
 
 	public String getUserName() {

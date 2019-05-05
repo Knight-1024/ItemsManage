@@ -1,6 +1,7 @@
 package com.lero.dao;
 
 import com.lero.model.Developer;
+import com.lero.model.ItemManager;
 import com.lero.model.PageBean;
 import com.lero.model.Subproject;
 import com.lero.util.StringUtil;
@@ -17,13 +18,14 @@ import java.util.List;
  * @data : 2019/3/28
  */
 public class DeveloperDao {
+    ItemManagerDao itemManagerDao = new ItemManagerDao();
 
     public List<Developer> developerList(Connection con, PageBean pageBean, Developer s_developer)throws Exception {
         List<Developer> developerList = new ArrayList<Developer>();
         StringBuffer sb = new StringBuffer("SELECT * FROM t_developer t1");
-        if(StringUtil.isNotEmpty(s_developer.getName())) {
+        if(s_developer!= null && StringUtil.isNotEmpty(s_developer.getName())) {
             sb.append(" where t1.name like '%"+s_developer.getName()+"%'");
-        } else if(StringUtil.isNotEmpty(s_developer.getUserName())) {
+        } else if(s_developer!= null && StringUtil.isNotEmpty(s_developer.getUserName())) {
             sb.append(" where t1.userName like '%"+s_developer.getUserName()+"%'");
         }
         if(pageBean != null) {
@@ -35,6 +37,11 @@ public class DeveloperDao {
             Developer developer=new Developer();
             developer.setDeveloperId(rs.getInt("developerId"));
             int itemManaerId = rs.getInt("itemManaerId");
+            //¹ØÁªitemManaerId
+            ItemManager itemManager = itemManagerDao.itemManagerShow(con, "" + itemManaerId);
+            if(itemManager!=null){
+                developer.setItemManagerName(itemManager.getName());
+            }
             developer.setItemManaerId(itemManaerId);
             developer.setName(rs.getString("name"));
             developer.setSex(rs.getString("sex"));
@@ -65,13 +72,14 @@ public class DeveloperDao {
     }
 
     public int developerAdd(Connection con, Developer developer)throws Exception {
-        String sql = "insert into t_developer values(null,?,?,null,?,?,?)";
+        String sql = "insert into t_developer values(null,?,?,null,?,?,?,?)";
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, developer.getUserName());
         pstmt.setString(2, developer.getPassword());
         pstmt.setString(3, developer.getName());
         pstmt.setString(4, developer.getSex());
         pstmt.setString(5, developer.getTel());
+        pstmt.setString(6, developer.getItemManaerId().toString());
         return pstmt.executeUpdate();
     }
 
@@ -83,13 +91,13 @@ public class DeveloperDao {
     }
 
     public int developerUpdate(Connection con, Developer developer)throws Exception {
-        String sql = "update t_developer set userName=?,password=?,name=?,sex=?,tel=? where developerId=?";
+        String sql = "update t_developer set userName=?,name=?,sex=?,tel=? ,itemManaerId=?where developerId=?";
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, developer.getUserName());
-        pstmt.setString(2, developer.getPassword());
-        pstmt.setString(3, developer.getName());
-        pstmt.setString(4, developer.getSex());
-        pstmt.setString(5, developer.getTel());
+        pstmt.setString(2, developer.getName());
+        pstmt.setString(3, developer.getSex());
+        pstmt.setString(4, developer.getTel());
+        pstmt.setString(5, developer.getItemManaerId().toString());
         pstmt.setInt(6, developer.getDeveloperId());
         return pstmt.executeUpdate();
     }

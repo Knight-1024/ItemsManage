@@ -83,6 +83,7 @@
 				<ul class="nav nav-list bs-docs-sidenav">
 					<li><a href="blank"><i class="icon-chevron-right"></i>首页</a></li>
 					<li><a href="itemManager?action=list"><i class="icon-chevron-right"></i>项目管理员管理</a></li>
+					<li><a href="developer?action=list"><i class="icon-chevron-right"></i>开发者管理</a></li>
 					<li><a href="subproject?action=list"><i class="icon-chevron-right"></i>任务管理</a></li>
 					<li><a href="itemType?action=list"><i class="icon-chevron-right"></i>项目类别管理</a></li>
 					<li><a href="record?action=list"><i class="icon-chevron-right"></i>提交记录</a></li>

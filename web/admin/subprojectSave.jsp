@@ -4,18 +4,13 @@
 <script type="text/javascript">
 	function checkForm(){
 		var userName=document.getElementById("userName").value;
-		var password=document.getElementById("password").value;
-		var rPassword=document.getElementById("rPassword").value;
 		var itemTypeId=document.getElementById("itemTypeId").value;
 		var developerName=document.getElementById("developerName").value;
 		var name=document.getElementById("name").value;
 		var sex=document.getElementById("sex").value;
 		var tel=document.getElementById("tel").value;
-		if(userName==""||password==""||rPassword==""||name==""||sex==""||tel==""||itemTypeId==""||developerName==""){
+		if(userName==""||name==""||sex==""||tel==""||itemTypeId==""||developerName==""){
 			document.getElementById("error").innerHTML="信息填写不完整！";
-			return false;
-		} else if(password!=rPassword){
-			document.getElementById("error").innerHTML="密码填写不一致！";
 			return false;
 		}
 		return true;

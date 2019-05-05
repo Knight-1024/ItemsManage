@@ -7,13 +7,16 @@ package com.lero.model;
  */
 public class Developer {
 
-    private int developerId;
+    private Integer developerId;
     private String userName;
     private String password;
-    private int itemManaerId;
+    private Integer itemManaerId;
     private String name;
     private String sex;
     private String tel;
+
+    ItemManager itemManager;
+    private String itemManagerName;
 
     public Developer() {
     }
@@ -23,21 +26,20 @@ public class Developer {
         this.password = password;
     }
 
-    public Developer(int developerId, String userName, String password, int itemManaerId, String name, String sex, String tel) {
+    public Developer(Integer developerId, String userName, Integer itemManaerId, String name, String sex, String tel) {
         this.developerId = developerId;
         this.userName = userName;
-        this.password = password;
         this.itemManaerId = itemManaerId;
         this.name = name;
         this.sex = sex;
         this.tel = tel;
     }
 
-    public int getDeveloperId() {
+    public Integer getDeveloperId() {
         return developerId;
     }
 
-    public void setDeveloperId(int developerId) {
+    public void setDeveloperId(Integer developerId) {
         this.developerId = developerId;
     }
 
@@ -57,11 +59,11 @@ public class Developer {
         this.password = password;
     }
 
-    public int getItemManaerId() {
+    public Integer getItemManaerId() {
         return itemManaerId;
     }
 
-    public void setItemManaerId(int itemManaerId) {
+    public void setItemManaerId(Integer itemManaerId) {
         this.itemManaerId = itemManaerId;
     }
 
@@ -87,5 +89,21 @@ public class Developer {
 
     public void setTel(String tel) {
         this.tel = tel;
+    }
+
+    public ItemManager getItemManager() {
+        return itemManager;
+    }
+
+    public void setItemManager(ItemManager itemManager) {
+        this.itemManager = itemManager;
+    }
+
+    public String getItemManagerName() {
+        return itemManagerName;
+    }
+
+    public void setItemManagerName(String itemManagerName) {
+        this.itemManagerName = itemManagerName;
     }
 }

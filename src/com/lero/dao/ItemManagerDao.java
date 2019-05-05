@@ -20,9 +20,9 @@ public class ItemManagerDao {
 	public List<ItemManager> itemManagerList(Connection con, PageBean pageBean, ItemManager s_itemManager)throws Exception {
 		List<ItemManager> itemManagerList = new ArrayList<ItemManager>();
 		StringBuffer sb = new StringBuffer("SELECT * FROM t_itemmanager t1");
-		if(StringUtil.isNotEmpty(s_itemManager.getName())) {
+		if(s_itemManager!=null && StringUtil.isNotEmpty(s_itemManager.getName())) {
 			sb.append(" where t1.name like '%"+s_itemManager.getName()+"%'");
-		} else if(StringUtil.isNotEmpty(s_itemManager.getUserName())) {
+		} else if(s_itemManager!=null && StringUtil.isNotEmpty(s_itemManager.getUserName())) {
 			sb.append(" where t1.userName like '%"+s_itemManager.getUserName()+"%'");
 		}
 		if(pageBean != null) {
