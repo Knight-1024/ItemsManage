@@ -169,4 +169,11 @@ public class ItemTypeDao {
 		pstmt.setString(2, itemManagerId);
 		return pstmt.executeUpdate();
 	}
+
+	public int managerMevoeWithId (Connection con, String itemManagerId)throws Exception {
+		String sql = "update t_itemManager set itemTypeId=null where itemManId=?";
+		PreparedStatement pstmt=con.prepareStatement(sql);
+		pstmt.setString(1, itemManagerId);
+		return pstmt.executeUpdate();
+	}
 }

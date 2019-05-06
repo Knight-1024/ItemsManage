@@ -61,7 +61,7 @@ window.onload = function(){
 					<option value="name">名称</option>
 					<option value="number" ${searchType eq "number"?'selected':'' }>编码</option>
 					</select>
-					&nbsp;<input id="s_subprojectText" name="s_subprojectText" type="text"  style="width:120px;height: 30px;" class="input-medium search-query" value="${s_subprojectText }">
+					&nbsp;<input id="s_subprojectText" name="s_subprojectText" type="text"  style="width:120px;height: 30px;" class="input-medium search-query" value="${s_subprojectText}">
 					&nbsp;<button type="submit" class="btn btn-info" onkeydown="if(event.keyCode==13) myForm.submit()">搜索</button>
 				</span>
 		</form>
@@ -83,7 +83,7 @@ window.onload = function(){
 				<c:forEach  varStatus="i" var="subproject" items="${subprojectList }">
 					<tr>
 						<%-- <td>${i.count+(page-1)*pageSize }</td> --%>
-						<td>${subproject.userName }</td>
+						<td>${subproject.subNumber }</td>
 						<td>${subproject.name }</td>
 						<td>${subproject.state eq "1"?"完成":"未完成"}</td>
 						<td>${subproject.itemTypeName==null?"无":subproject.itemTypeName }</td>

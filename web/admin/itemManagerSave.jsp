@@ -9,11 +9,14 @@
 		var name=document.getElementById("name").value;
 		var sex=document.getElementById("sex").value;
 		var tel=document.getElementById("tel").value;
-		if(userName==""||password==""||rPassword==""||name==""||sex==""||tel==""){
+		if(userName==""||name==""||sex==""||tel==""){
 			document.getElementById("error").innerHTML="信息填写不完整！";
 			return false;
 		} else if(password!=rPassword){
 			document.getElementById("error").innerHTML="密码填写不一致！";
+			return false;
+		}else if (itemManagerId==""&&password=="") {
+			document.getElementById("error").innerHTML="新建密码不能为空！";
 			return false;
 		}
 		return true;
@@ -44,11 +47,11 @@
 						</tr>
 						<tr>
 							<td><font color="red">*</font>密码：</td>
-							<td><input type="password" id="password"  name="password" value="${itemManager.password }"  style="margin-top:5px;height:30px;" /></td>
+							<td><input type="password" id="password"  name="password" value=""  style="margin-top:5px;height:30px;" /></td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>重复密码：</td>
-							<td><input type="password" id="rPassword"  name="rPassword" value="${itemManager.password }"  style="margin-top:5px;height:30px;" /></td>
+							<td><input type="password" id="rPassword"  name="rPassword" value=""  style="margin-top:5px;height:30px;" /></td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>姓名：</td>

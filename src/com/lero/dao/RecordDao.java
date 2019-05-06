@@ -19,21 +19,21 @@ public class RecordDao {
 	public List<Record> recordList(Connection con, Record s_record)throws Exception {
 		List<Record> recordList = new ArrayList<Record>();
 		StringBuffer sb = new StringBuffer("select * from t_record t1");
-		if(StringUtil.isNotEmpty(s_record.getSubprojectNumber())) {
+		if(s_record!=null &&  StringUtil.isNotEmpty(s_record.getSubprojectNumber())) {
 			sb.append(" and t1.subprojectNumber like '%"+s_record.getSubprojectNumber()+"%'");
-		} else if(StringUtil.isNotEmpty(s_record.getSubprojectName())) {
+		} else if(s_record!=null && StringUtil.isNotEmpty(s_record.getSubprojectName())) {
 			sb.append(" and t1.subprojectName like '%"+s_record.getSubprojectName()+"%'");
 		}
-		if(s_record.getItemTypeId()!=0) {
+		if(s_record!=null && s_record.getItemTypeId()!=null && s_record.getItemTypeId()!=0) {
 			sb.append(" and t1.itemTypeId="+s_record.getItemTypeId());
 		}
-		if(StringUtil.isNotEmpty(s_record.getDate())) {
+		if(s_record!=null && StringUtil.isNotEmpty(s_record.getDate())) {
 			sb.append(" and t1.date="+s_record.getDate());
 		}
-		if(StringUtil.isNotEmpty(s_record.getStartDate())){
+		if(s_record!=null && StringUtil.isNotEmpty(s_record.getStartDate())){
 			sb.append(" and TO_DAYS(t1.date)>=TO_DAYS('"+s_record.getStartDate()+"')");
 		}
-		if(StringUtil.isNotEmpty(s_record.getEndDate())){
+		if(s_record!=null && StringUtil.isNotEmpty(s_record.getEndDate())){
 			sb.append(" and TO_DAYS(t1.date)<=TO_DAYS('"+s_record.getEndDate()+"')");
 		}
 		PreparedStatement pstmt = con.prepareStatement(sb.toString().replaceFirst("and", "where"));

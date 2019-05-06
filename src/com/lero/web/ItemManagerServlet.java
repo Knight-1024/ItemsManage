@@ -1,6 +1,8 @@
 package com.lero.web;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import com.lero.dao.ItemManagerDao;
 import com.lero.model.ItemManager;
 import com.lero.model.PageBean;
 import com.lero.util.DbUtil;
+import com.lero.util.MD5Util;
 import com.lero.util.PropertiesUtil;
 import com.lero.util.StringUtil;
 
@@ -141,6 +144,7 @@ public class ItemManagerServlet extends HttpServlet{
 			try {
 			con = dbUtil.getCon();
 			itemManagerDao.itemManagerDelete(con, itemManagerId);
+			request.setAttribute("error", "删除成功");
 			request.getRequestDispatcher("itemManager?action=list").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -165,15 +169,26 @@ public class ItemManagerServlet extends HttpServlet{
 		String name = request.getParameter("name");
 		String sex = request.getParameter("sex");
 		String tel = request.getParameter("tel");
-		ItemManager itemManager = new ItemManager(userName, password, name, sex, tel);
-		if(StringUtil.isNotEmpty(itemManagerId)) {
-			itemManager.setItemManagerId(Integer.parseInt(itemManagerId));
+		if (StringUtil.isNotEmpty(password)){
+			try {
+				password = MD5Util.EncoderPwdByMD5(password);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+		ItemManager itemManager = new ItemManager(userName, password, name, sex, tel);
 		Connection con = null;
 		try {
 			con = dbUtil.getCon();
 			int saveNum = 0;
 			if(StringUtil.isNotEmpty(itemManagerId)) {
+				itemManager.setItemManagerId(Integer.parseInt(itemManagerId));
+				if(StringUtil.isEmpty(password)){
+					ItemManager itemManager1 = itemManagerDao.itemManagerShow(con, itemManagerId);
+					if(itemManager1!=null){
+						itemManager.setPassword(itemManager1.getPassword());
+					}
+				}
 				saveNum = itemManagerDao.itemManagerUpdate(con, itemManager);
 			} else if(itemManagerDao.haveManagerByUser(con, itemManager.getUserName())){
 				request.setAttribute("itemManager", itemManager);
@@ -187,9 +202,11 @@ public class ItemManagerServlet extends HttpServlet{
 				}
 				return;
 			} else {
+				itemManager.setPassword(MD5Util.EncoderPwdByMD5("111"));//创建默认密码111
 				saveNum = itemManagerDao.itemManagerAdd(con, itemManager);
 			}
 			if(saveNum > 0) {
+				request.setAttribute("error", "保存成功");
 				request.getRequestDispatcher("itemManager?action=list").forward(request, response);
 			} else {
 				request.setAttribute("itemManager", itemManager);

@@ -60,7 +60,7 @@ window.onload = function(){
                     	<span class="add-on"><i class="icon-remove"></i></span>
 						<span class="add-on"><i class="icon-th"></i></span>
                		 </span>
-					<select id="buildToSelect" name="buildToSelect" style="width: 110px;">
+					<select id="buildToSelect" name="buildToSelect" style="width: 120px;">
 					<option value="">全部项目类别</option>
 					<c:forEach var="itemType" items="${itemTypeList }">
 						<option value="${itemType.itemTypeId }" ${buildToSelect==itemType.itemTypeId?'selected':'' }>${itemType.itemTypeName }</option>
@@ -94,7 +94,7 @@ window.onload = function(){
 						<td>${record.subprojectNumber }</td>
 						<td>${record.subprojectName }</td>
 						<td>${record.itemTypeName==null?"无":record.itemTypeName }</td>
-						<td>${record.developerName }</td>
+						<td>${record.developerName}</td>
 						<td>${record.detail }</td>
 						<td>
 							<button class="btn btn-mini btn-danger" type="button" onclick="recordDelete(${record.recordId })">删除</button></td>

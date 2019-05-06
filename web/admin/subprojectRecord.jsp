@@ -46,7 +46,7 @@
 				<c:forEach  varStatus="i" var="subproject" items="${subprojectList }">
 					<tr>
 						<td>${i.count+(page-1)*pageSize }</td>
-						<td>${subproject.userName }</td>
+						<td>${subproject.subNumber }</td>
 						<td>${subproject.name }</td>
 						<td>${subproject.state }</td>
 						<td>${subproject.itemTypeName==null?"无":subproject.itemTypeName }</td>

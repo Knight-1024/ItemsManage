@@ -47,7 +47,6 @@
 							<td><font color="red">*</font>性别：</td>
 							<td>
 								<select id="sex" name="sex" style="width: 90px;">
-									<option value="">请选择...</option>
 									<option value="男" ${developer.sex eq "男"?'selected':'' }>男</option>
 									<option value="女" ${developer.sex eq "女"?'selected':'' }>女</option>
 								</select>

@@ -2,11 +2,13 @@ package com.lero.web;
 
 import com.lero.dao.DeveloperDao;
 import com.lero.dao.ItemManagerDao;
+import com.lero.dao.SubprojectDao;
 import com.lero.dao.UserDao;
 import com.lero.model.Developer;
 import com.lero.model.ItemManager;
 import com.lero.model.Subproject;
 import com.lero.util.DbUtil;
+import com.lero.util.MD5Util;
 import com.lero.util.StringUtil;
 
 import javax.servlet.ServletException;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +34,7 @@ public class DeveloperServlet  extends HttpServlet {
     UserDao userDao = new UserDao();
     DeveloperDao developerDao = new DeveloperDao();
     ItemManagerDao itemManagerDao = new ItemManagerDao();
+    SubprojectDao subprojectDao = new SubprojectDao();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -46,11 +50,11 @@ public class DeveloperServlet  extends HttpServlet {
         String action = request.getParameter("action");
 
         if("sublist".equals(action)){
-            //可领取任务列表
+            //完成记录
             sublist(request,response);
             return;
         }else if("preDraw".equals(action)){
-            //领取操作
+            //取消完成
             preDraw(request,response);
             return;
         } else if ("preChange".equals(action)) {
@@ -103,7 +107,6 @@ public class DeveloperServlet  extends HttpServlet {
         Connection con = null;
         try {
             con = dbUtil.getCon();
-            //TODO 分别还有分页和搜索，分页不做，加搜索
             List<Developer> developerList = developerDao.developerList(con, null, null);
             request.setAttribute("developerList", developerList);
 
@@ -195,6 +198,7 @@ public class DeveloperServlet  extends HttpServlet {
         String itemManaerId = request.getParameter("itemManaerId");
         String tel = request.getParameter("tel");
         Developer developer = new Developer(null,userName,null,name,sex,tel);
+
         if(StringUtil.isNotEmpty(developerId) && StringUtil.isNumeric(developerId)){
             developer.setDeveloperId(Integer.parseInt(developerId));
         }
@@ -203,6 +207,16 @@ public class DeveloperServlet  extends HttpServlet {
         }
         try {
             con = dbUtil.getCon();
+            List<ItemManager> itemManagerList = itemManagerDao.itemManagerList(con, null, null);
+            request.setAttribute("itemManagerList",itemManagerList);
+            //空值判断
+            if(StringUtil.isEmpty(userName) || StringUtil.isEmpty(name) || StringUtil.isEmpty(sex)
+                    || StringUtil.isEmpty(itemManaerId) || StringUtil.isEmpty(tel)){
+                request.setAttribute("error","信息填写不完整");
+                request.setAttribute("developer",developer);
+                request.setAttribute("mainPage", "admin/developerSave.jsp");
+                request.getRequestDispatcher("mainAdmin.jsp").forward(request, response);
+            }
             Developer show = developerDao.developerShow(con, developerId);
             if(show.getDeveloperId()!=null){
                 int i = developerDao.developerUpdate(con, developer);
@@ -220,8 +234,6 @@ public class DeveloperServlet  extends HttpServlet {
                     error = "添加失败";
                 }
             }
-            List<ItemManager> itemManagerList = itemManagerDao.itemManagerList(con, null, null);
-            request.setAttribute("itemManagerList",itemManagerList);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -252,7 +264,7 @@ public class DeveloperServlet  extends HttpServlet {
             if(StringUtil.isNotEmpty(developerId)){
                 Developer developer = developerDao.developerShow(con, developerId);
                 if(developer!=null){
-                    developer.setPassword("123");
+                    developer.setPassword(MD5Util.EncoderPwdByMD5("111"));
                     int i = developerDao.developerUpdate(con, developer);
                     if(i==1){
                         error = developer.getName()+"的密码已重置成功";
@@ -273,17 +285,27 @@ public class DeveloperServlet  extends HttpServlet {
     }
 
     /**
-     * 显示可领取列表
+     * 显示已完成列表
      *
      * @param request
      * @param response
      */
     private void sublist(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Developer developer = (Developer) (session.getAttribute("currentUser"));
         Connection con = null;
         try {
             con = dbUtil.getCon();
-            List<Subproject> subprojectList = developerDao.showSubList(con);
+            List<Subproject> showMyList = developerDao.showMyList(con,developer.getDeveloperId());
+            List<Subproject> subprojectList = new ArrayList<>();
+            if(showMyList!=null && showMyList.size()>0){
+                for(Subproject sb : showMyList){
+                    if("1".equals(sb.getState())){
+                        subprojectList.add(sb);
+                    }
+                }
+            }
             request.setAttribute("subprojectList", subprojectList);
 
         } catch (Exception e) {
@@ -300,19 +322,26 @@ public class DeveloperServlet  extends HttpServlet {
     }
 
     /**
-     * 领取操作
+     * 取消完成操作
      *
      * @param request
      * @param response
      */
     private void preDraw(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String subprojectId = request.getParameter("subprojectId");
         Connection con = null;
+        String error = "取消失败";
         try {
             con = dbUtil.getCon();
-            List<Subproject> subprojectList = developerDao.showSubList(con);
-            request.setAttribute("subprojectList", subprojectList);
-
+            Subproject subproject = subprojectDao.subprojectShow(con, subprojectId);
+            if(subproject!=null){
+                subproject.setState("0");
+                int i = subprojectDao.subprojectUpdate(con, subproject);
+                if(1==i){
+                    error = "取消成功";
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -322,7 +351,7 @@ public class DeveloperServlet  extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        request.setAttribute("error","领取成功");
+        request.setAttribute("error",error);
         sublist(request,response);
     }
 
@@ -339,7 +368,15 @@ public class DeveloperServlet  extends HttpServlet {
         Connection con = null;
         try {
             con = dbUtil.getCon();
-            List<Subproject> subprojectList = developerDao.showMyList(con,developer.getDeveloperId());
+            List<Subproject> showMyList = developerDao.showMyList(con,developer.getDeveloperId());
+            List<Subproject> subprojectList = new ArrayList<>();
+            if(showMyList!=null && showMyList.size()>0){
+                for(Subproject sb : showMyList){
+                    if(!"1".equals(sb.getState())){
+                        subprojectList.add(sb);
+                    }
+                }
+            }
             request.setAttribute("subprojectList", subprojectList);
 
         } catch (Exception e) {
@@ -363,13 +400,19 @@ public class DeveloperServlet  extends HttpServlet {
      */
     private void submit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //TODO 提交关联id
+        String subprojectId = request.getParameter("subprojectId");
         Connection con = null;
+        String error = "提交失败";
         try {
             con = dbUtil.getCon();
-            List<Subproject> subprojectList = developerDao.showSubList(con);
-            request.setAttribute("subprojectList", subprojectList);
-
+            Subproject subproject = subprojectDao.subprojectShow(con, subprojectId);
+            if(subproject!=null){
+                subproject.setState("1");
+                int i = subprojectDao.subprojectUpdate(con, subproject);
+                if(1==i){
+                    error = "提交成功";
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -379,7 +422,7 @@ public class DeveloperServlet  extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        request.setAttribute("error","提交成功");
+        request.setAttribute("error",error);
         mySublist(request,response);
     }
 

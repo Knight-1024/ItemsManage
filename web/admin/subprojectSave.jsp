@@ -3,13 +3,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script type="text/javascript">
 	function checkForm(){
-		var userName=document.getElementById("userName").value;
+		var subNumber=document.getElementById("subNumber").value;
 		var itemTypeId=document.getElementById("itemTypeId").value;
-		var developerName=document.getElementById("developerName").value;
+		var developerId=document.getElementById("developerId").value;
 		var name=document.getElementById("name").value;
-		var sex=document.getElementById("sex").value;
-		var tel=document.getElementById("tel").value;
-		if(userName==""||name==""||sex==""||tel==""||itemTypeId==""||developerName==""){
+		var state=document.getElementById("state").value;
+		if(subNumber==""||name==""||state==""||itemTypeId==""||developerId==""){
 			document.getElementById("error").innerHTML="信息填写不完整！";
 			return false;
 		}
@@ -37,7 +36,7 @@
 					<table align="center">
 						<tr>
 							<td><font color="red">*</font>编码：</td>
-							<td><input type="text" id="userName"  name="userName" value="${subproject.userName }"  style="margin-top:5px;height:30px;" /></td>
+							<td><input type="text" id="subNumber"  name="subNumber" value="${subproject.subNumber }"  style="margin-top:5px;height:30px;" /></td>
 						</tr>
 						<tr>
 							<td><font color="red">*</font>名称：</td>
@@ -46,8 +45,7 @@
 						<tr>
 							<td><font color="red">*</font>状态：</td>
 							<td>
-								<select id="state" name="state" style="width: 90px;">
-									<option value="">请选择...</option>
+								<select id="state" name="state" style="width: 140px;">
 									<option value="0" ${subproject.state eq "0"?'selected':'' }>未完成</option>
 									<option value="1" ${subproject.state eq "1"?'selected':'' }>完成</option>
 								</select>
@@ -56,7 +54,8 @@
 						<tr>
 							<td><font color="red">*</font>项目类别：</td>
 							<td>
-								<select id="itemTypeId" name="itemTypeId" style="width: 90px;">
+								<select id="itemTypeId" name="itemTypeId" style="width: 140px;">
+									<option value="">请选择项目类别</option>
 									<c:forEach var="itemType" items="${itemTypeList }">
 										<option value="${itemType.itemTypeId }" ${subproject.itemTypeId==itemType.itemTypeId?'selected':'' }>${itemType.itemTypeName }</option>
 									</c:forEach>
@@ -65,11 +64,12 @@
 						</tr>
 						<tr>
 							<td><font color="red">*</font>项目开发者：</td>
-							<td><input type="text" id="developerName"  name="developerName" value="${subproject.developerName }"  style="margin-top:5px;height:30px;" /></td>
-						</tr>
-						<tr>
-							<td><font color="red">*</font>开发者电话：</td>
-							<td><input type="text" id="tel"  name="tel" value="${subproject.tel }"  style="margin-top:5px;height:30px;" /></td>
+							<td><select id="developerId" name="developerId" style="width: 140px;">
+								<option value="">请选择开发者</option>
+								<c:forEach var="developer" items="${developerList }">
+									<option value="${developer.developerId }" ${subproject.developerId==developer.developerId?'selected':'' }>${developer.name }</option>
+								</c:forEach>
+							</select></td>
 						</tr>
 					</table>
 					<div align="center">

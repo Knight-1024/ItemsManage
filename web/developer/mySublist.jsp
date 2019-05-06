@@ -24,10 +24,10 @@
 			<table class="table table-striped table-bordered table-hover datatable">
 				<thead>
 					<tr>
-					<!-- <th>编号</th> -->
 					<th>编码</th>
 					<th>名称</th>
 					<th>归属</th>
+					<th>状态</th>
 					<th>开发者</th>
 					<th>开发者电话</th>
 					<th>操作</th>
@@ -40,6 +40,7 @@
 						<td>${subproject.subNumber }</td>
 						<td>${subproject.name }</td>
 						<td>${subproject.itemTypeName==null?"无":subproject.itemTypeName }</td>
+						<td>${subproject.state eq "1"?"完成":"未完成" }</td>
 						<td>${subproject.developerName }</td>
 						<td>${subproject.tel }</td>
 						<td><button class="btn btn-mini btn-info" type="button" onclick="javascript:window.location='developer?action=submit&subprojectId=${subproject.subprojectId }'">提交</button>&nbsp;

@@ -138,12 +138,13 @@ public class SubprojectDao {
 			subproject.setState(rs.getString("state"));
 			subproject.setSubNumber(rs.getString("subNum"));
 			subproject.setTel(rs.getString("tel"));
+			subproject.setDeveloperId(rs.getInt("developerId"));
 		}
 		return subproject;
 	}
 	
 	public int subprojectAdd(Connection con, Subproject subproject)throws Exception {
-		String sql = "insert into t_subproject values(null,?,?,?,?,?,?)";
+		String sql = "insert into t_subproject values(null,?,?,?,?,?,?,?)";
 		PreparedStatement pstmt=con.prepareStatement(sql);
 		pstmt.setString(1, subproject.getSubNumber());
 		pstmt.setString(2, subproject.getName());
@@ -151,6 +152,7 @@ public class SubprojectDao {
 		pstmt.setString(4, subproject.getDeveloperName());
 		pstmt.setString(5, subproject.getState());
 		pstmt.setString(6, subproject.getTel());
+		pstmt.setInt(7, subproject.getDeveloperId());
 		return pstmt.executeUpdate();
 	}
 	

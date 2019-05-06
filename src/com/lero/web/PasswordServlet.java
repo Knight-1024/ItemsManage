@@ -1,6 +1,7 @@
 package com.lero.web;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ import com.lero.model.Developer;
 import com.lero.model.ItemManager;
 import com.lero.model.Subproject;
 import com.lero.util.DbUtil;
+import com.lero.util.MD5Util;
 
 /**
  * @Description : √‹¬Îøÿ÷∆
@@ -46,24 +48,33 @@ public class PasswordServlet extends HttpServlet{
 			passwordPreChange(request, response);
 			return;
 		} else if("change".equals(action)) {
-			passwordChange(request, response);
+			//√‹¬Î–ﬁ∏ƒ±£¥Ê
+			try {
+				passwordChange(request, response);
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
 			return;
 		}
 	}
 
 	/**
 	 * √‹¬Î–ﬁ∏ƒ±£¥Ê
+	 *
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
 	private void passwordChange(HttpServletRequest request,
-			HttpServletResponse response)throws ServletException, IOException {
+			HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
 		HttpSession session = request.getSession();
 		Object currentUserType = session.getAttribute("currentUserType");
 		String oldPassword = request.getParameter("oldPassword");
 		String newPassword = request.getParameter("newPassword");
+		//MD5º”√‹
+		oldPassword = MD5Util.EncoderPwdByMD5(oldPassword);
+		newPassword = MD5Util.EncoderPwdByMD5(newPassword);
 		Connection con = null;
 		try {
 			con = dbUtil.getCon();

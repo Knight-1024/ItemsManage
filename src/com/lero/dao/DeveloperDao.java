@@ -72,14 +72,14 @@ public class DeveloperDao {
     }
 
     public int developerAdd(Connection con, Developer developer)throws Exception {
-        String sql = "insert into t_developer values(null,?,?,null,?,?,?,?)";
+        String sql = "insert into t_developer values(null,?,?,?,?,?,?)";
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, developer.getUserName());
         pstmt.setString(2, developer.getPassword());
-        pstmt.setString(3, developer.getName());
-        pstmt.setString(4, developer.getSex());
-        pstmt.setString(5, developer.getTel());
-        pstmt.setString(6, developer.getItemManaerId().toString());
+        pstmt.setString(3, developer.getItemManaerId().toString());
+        pstmt.setString(4, developer.getName());
+        pstmt.setString(5, developer.getSex());
+        pstmt.setString(6, developer.getTel());
         return pstmt.executeUpdate();
     }
 
@@ -102,28 +102,6 @@ public class DeveloperDao {
         return pstmt.executeUpdate();
     }
 
-    public List<Subproject> showSubList(Connection con) throws Exception {
-        List<Subproject> subprojectList = new ArrayList<Subproject>();
-        String sql = "select * from t_subproject t1 where developerId is null";
-        PreparedStatement pstmt = con.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery();
-
-        while(rs.next()) {
-            Subproject subproject=new Subproject();
-            subproject.setSubprojectId(rs.getInt("subprojectId"));
-            int itemTypeId = rs.getInt("itemTypeId");
-            subproject.setItemTypeId(itemTypeId);
-            subproject.setItemTypeName(ItemTypeDao.itemTypeName(con, itemTypeId));
-            subproject.setDeveloperName(rs.getString("developerName"));
-            subproject.setName(rs.getString("name"));
-            subproject.setState(rs.getString("state"));
-            subproject.setSubNumber(rs.getString("subNum"));
-            subproject.setTel(rs.getString("tel"));
-            subprojectList.add(subproject);
-        }
-        return subprojectList;
-    }
-
     public List<Subproject> showMyList(Connection con,int developerId) throws Exception {
         List<Subproject> subprojectList = new ArrayList<Subproject>();
         String sql = "select * from t_subproject t1 where developerId = ?";
@@ -142,6 +120,12 @@ public class DeveloperDao {
             subproject.setState(rs.getString("state"));
             subproject.setSubNumber(rs.getString("subNum"));
             subproject.setTel(rs.getString("tel"));
+            //任务与开发者关联
+            Developer developer = developerShow(con,""+developerId);
+            if(developer!=null){
+                subproject.setDeveloperName(developer.getName());
+                subproject.setTel(developer.getTel());
+            }
             subprojectList.add(subproject);
         }
         return subprojectList;

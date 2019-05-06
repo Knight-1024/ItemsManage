@@ -1,6 +1,7 @@
 package com.lero.web;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import com.lero.model.Developer;
 import com.lero.model.ItemManager;
 import com.lero.model.Subproject;
 import com.lero.util.DbUtil;
+import com.lero.util.MD5Util;
 
 /**
  * @Description : µÇÂ¼¿ØÖÆ
@@ -44,7 +46,12 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String remember = request.getParameter("remember");
 		String userType = request.getParameter("userType");
-		
+		String rePass = password;
+		try {
+			password = MD5Util.EncoderPwdByMD5(password);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 		Connection con = null;
 		try {
 			con=dbUtil.getCon();
@@ -60,7 +67,7 @@ public class LoginServlet extends HttpServlet {
 					request.getRequestDispatcher("login.jsp").forward(request, response);
 				} else {
 					if("remember-me".equals(remember)) {
-						rememberMe(userName, password, userType,response);
+						rememberMe(userName, rePass, userType,response);
 					} else {
 						deleteCookie(userName, request, response);
 					}
@@ -78,7 +85,7 @@ public class LoginServlet extends HttpServlet {
 					request.getRequestDispatcher("login.jsp").forward(request, response);
 				} else {
 					if("remember-me".equals(remember)) {
-						rememberMe(userName, password, userType,response);
+						rememberMe(userName, rePass, userType,response);
 					} else {
 						deleteCookie(userName, request, response);
 					}
@@ -96,7 +103,7 @@ public class LoginServlet extends HttpServlet {
 					request.getRequestDispatcher("login.jsp").forward(request, response);
 				} else {
 					if("remember-me".equals(remember)) {
-						rememberMe(userName, password, userType,response);
+						rememberMe(userName, rePass, userType,response);
 					} else {
 						deleteCookie(userName, request, response);
 					}

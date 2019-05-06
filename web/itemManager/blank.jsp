@@ -9,6 +9,6 @@
 
 <div>
 	<div class=blank style="padding-top: 100px;padding-left: 100px;">
-		<font color="gray" size="20">欢迎您,项目管理员!</font>
+		<font color="gray" size="20">欢迎您,项目管理员: ${currentUser.name}!</font>
 	</div>
 </div>

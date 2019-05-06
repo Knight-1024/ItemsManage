@@ -1,21 +1,22 @@
 package com.lero.web;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.util.List;
+import com.lero.dao.DeveloperDao;
+import com.lero.dao.ItemTypeDao;
+import com.lero.dao.SubprojectDao;
+import com.lero.model.Developer;
+import com.lero.model.ItemManager;
+import com.lero.model.Subproject;
+import com.lero.util.DbUtil;
+import com.lero.util.StringUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.lero.dao.ItemTypeDao;
-import com.lero.dao.SubprojectDao;
-import com.lero.model.ItemManager;
-import com.lero.model.Subproject;
-import com.lero.util.DbUtil;
-import com.lero.util.StringUtil;
+import java.io.IOException;
+import java.sql.Connection;
+import java.util.List;
 
 /**
  * @Description : 任务控制
@@ -28,6 +29,7 @@ public class SubprojectServlet extends HttpServlet{
 
 	DbUtil dbUtil = new DbUtil();
 	SubprojectDao subprojectDao = new SubprojectDao();
+	DeveloperDao developerDao = new DeveloperDao();
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -39,6 +41,7 @@ public class SubprojectServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
+
 		HttpSession session = request.getSession();
 		Object currentUserType = session.getAttribute("currentUserType");
 		String s_subprojectText = request.getParameter("s_subprojectText");
@@ -93,7 +96,7 @@ public class SubprojectServlet extends HttpServlet{
 				session.setAttribute("s_subprojectText", s_subprojectText);
 				session.setAttribute("searchType", searchType);
 			} else {
-				session.removeAttribute("s_subprojecttext");
+				session.removeAttribute("s_subprojectText");
 				session.removeAttribute("searchtype");
 			}
 			if(StringUtil.isNotEmpty(itemTypeId)) {
@@ -209,6 +212,7 @@ public class SubprojectServlet extends HttpServlet{
 		try {
 			con = dbUtil.getCon();
 			subprojectDao.subprojectDelete(con, subprojectId);
+			request.setAttribute("error", "删除成功");
 			request.getRequestDispatcher("subproject?action=list").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -228,20 +232,28 @@ public class SubprojectServlet extends HttpServlet{
 	 */
 	private void subprojectSave(HttpServletRequest request,
 			HttpServletResponse response)throws ServletException, IOException {
+		long start = System.currentTimeMillis();//测试开始时间
+
 		String subprojectId = request.getParameter("subprojectId");
-		String userName = request.getParameter("userName");
+		String subNumber = request.getParameter("subNumber");
 		String itemTypeId = request.getParameter("itemTypeId");
-		String developerName = request.getParameter("developerName");
+		String developerId = request.getParameter("developerId");
 		String name = request.getParameter("name");
 		String state = request.getParameter("state");
 		String tel = request.getParameter("tel");
-		Subproject subproject = new Subproject(userName, Integer.parseInt(itemTypeId), developerName, name, state, tel);
+
+		Subproject subproject = new Subproject(subNumber, Integer.parseInt(itemTypeId), developerId, name, state);
 		if(StringUtil.isNotEmpty(subprojectId)) {
 			subproject.setSubprojectId(Integer.parseInt(subprojectId));
 		}
 		Connection con = null;
 		try {
 			con = dbUtil.getCon();
+			Developer developer = developerDao.developerShow(con, developerId);
+			if(developer!=null){
+				subproject.setDeveloperName(developer.getName());
+				subproject.setTel(developer.getTel());
+			}
 			int saveNum = 0;
 			if(StringUtil.isNotEmpty(subprojectId)) {
 				saveNum = subprojectDao.subprojectUpdate(con, subproject);
@@ -260,6 +272,7 @@ public class SubprojectServlet extends HttpServlet{
 				saveNum = subprojectDao.subprojectAdd(con, subproject);
 			}
 			if(saveNum > 0) {
+				request.setAttribute("error", "保存成功");
 				request.getRequestDispatcher("subproject?action=list").forward(request, response);
 			} else {
 				request.setAttribute("subproject", subproject);
@@ -270,6 +283,8 @@ public class SubprojectServlet extends HttpServlet{
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			long end = System.currentTimeMillis();//测试结束时间
+			System.out.println(end-start+"毫秒");//测试运行时间
 			try {
 				dbUtil.closeCon(con);
 			} catch (Exception e) {
@@ -289,6 +304,7 @@ public class SubprojectServlet extends HttpServlet{
 		Connection con = null;
 		try {
 			con = dbUtil.getCon();
+			request.setAttribute("developerList", developerDao.developerList(con,null,null));
 			request.setAttribute("itemTypeList", subprojectDao.itemTypeList(con));
 			if (StringUtil.isNotEmpty(subprojectId)) {
 				Subproject subproject = subprojectDao.subprojectShow(con, subprojectId);

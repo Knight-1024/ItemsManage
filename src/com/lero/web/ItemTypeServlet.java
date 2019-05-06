@@ -125,7 +125,7 @@ public class ItemTypeServlet extends HttpServlet{
 		Connection con = null;
 		try {
 			con = dbUtil.getCon();
-			itemTypeDao.managerUpdateWithId(con, itemManagerId, itemTypeId);
+			itemTypeDao.managerMevoeWithId(con, itemManagerId);
 			request.getRequestDispatcher("itemType?action=manager&itemTypeId="+itemTypeId).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

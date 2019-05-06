@@ -68,8 +68,6 @@ public class RecordServlet extends HttpServlet{
 					record.setSubprojectName(s_subprojectText);
 				} else if("number".equals(searchType)) {
 					record.setSubprojectNumber(s_subprojectText);
-				} else if("dorm".equals(searchType)) {
-					record.setDeveloperName(s_subprojectText);
 				}
 			}
 			if(StringUtil.isNotEmpty(itemTypeId)) {
@@ -163,6 +161,7 @@ public class RecordServlet extends HttpServlet{
 		try {
 			con = dbUtil.getCon();
 			recordDao.recordDelete(con, recordId);
+			request.setAttribute("error", "É¾³ý³É¹¦");
 			request.getRequestDispatcher("record?action=list").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

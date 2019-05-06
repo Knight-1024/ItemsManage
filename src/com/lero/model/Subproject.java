@@ -8,7 +8,6 @@ package com.lero.model;
 public class Subproject {
 	private int subprojectId;
 	private String subNumber;
-	private String userName;
 	private int itemTypeId;
 	private String itemTypeName;
 	private String developerName;
@@ -19,20 +18,14 @@ public class Subproject {
 
 	public Subproject() {
 	}
-	
-	public Subproject(String userName) {
-		this.userName = userName;
-	}
 
 	public Subproject(String subNumber, int itemTypeId,
-			String developerName, String name, String state, String tel) {
+			String developerId, String name, String state) {
 		this.subNumber = subNumber;
-		this.userName = subNumber;
 		this.itemTypeId = itemTypeId;
-		this.developerName = developerName;
+		this.developerName = developerId;
 		this.name = name;
 		this.state = state;
-		this.tel = tel;
 	}
 
 	public int getSubprojectId() {
@@ -49,14 +42,6 @@ public class Subproject {
 
 	public void setSubNumber(String subNumber) {
 		this.subNumber = subNumber;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 
 	public int getItemTypeId() {
@@ -114,4 +99,5 @@ public class Subproject {
 	public void setDeveloperId(int developerId) {
 		this.developerId = developerId;
 	}
+
 }

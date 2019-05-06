@@ -16,6 +16,7 @@ public class PageBean {
 		super();
 		this.page = page;
 		this.pageSize = pageSize;
+		this.start = (page-1)*pageSize;
 	}
 
 	public int getPage() {
